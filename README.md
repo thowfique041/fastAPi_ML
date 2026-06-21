@@ -172,5 +172,5 @@ Predict diabetes for a patient.
 
 ##  Author
 
-**Your Name**  
+**Thowfiqur Bari Chowdhury**  
 [GitHub](https://github.com/thowfique041) 

@@ -17,12 +17,17 @@ A machine learning-powered web application that predicts diabetes risk based on 
 ##  Project Structure
 
 ```
-fastAPi_ML/
-├── main.py             # FastAPI backend + ML inference
-├── streamlit_app.py    # Streamlit frontend
-├── model.pkl           # Trained ML model (not included in repo)
-├── requirements.txt
-└── README.md
+FastAPI_ML/
+├── main.py                  # FastAPI backend and API routes
+├── streamlit_app.py         # Streamlit frontend
+├── requirements.txt         # Project dependencies
+├── README.md
+├── model/
+│   ├── model.pkl            # Trained ML model
+│   └── predict.py           # Model loading and prediction logic
+└── schema/
+    ├── user_input.py        # Request body schema
+    └── response_pd.py       # Prediction response schema
 ```
 
 ---
@@ -44,7 +49,7 @@ pip install -r requirements.txt
 
 ### 3. Add your trained model
 
-Place your trained model file as `model.pkl` in the root directory.  
+Place your trained model file at `model/model.pkl`.  
 The model must be trained on the following features (in this order):
 
 | Feature | Description |
@@ -112,6 +117,17 @@ Health check.
 { "message": "Welcome to the Diabetes Prediction API!" }
 ```
 
+### `GET /health`
+Check API status, model version, and whether the model file is loaded.
+
+```json
+{
+  "status": "ok",
+  "version": "1.0.0",
+  "model_loaded": true
+}
+```
+
 ### `POST /predict`
 Predict diabetes for a patient.
 
@@ -134,14 +150,6 @@ Predict diabetes for a patient.
 ```json
 {
   "name": "John Doe",
-  "pregnancies": 6,
-  "glucose": 148,
-  "blood_pressure": 72,
-  "skin_thickness": 35,
-  "insulin": 0.0,
-  "bmi": 33.6,
-  "diabetes_pedigree_function": 0.627,
-  "age": 50,
   "prediction": {
     "prediction": "Diabetic",
     "probability": {
@@ -164,9 +172,8 @@ Predict diabetes for a patient.
 
 ##  Notes
 
-- `model.pkl` is excluded from this repository. Train your own model using the Pima Indians Diabetes Dataset and save it with `pickle`.
+- The app loads the model from `model/model.pkl`. Train your own model using the Pima Indians Diabetes Dataset and save it with `pickle`.
 - Make sure the FastAPI server is running before using the Streamlit frontend.
-- For cross-origin requests, CORS is enabled in `main.py`.
 
 ---
 
